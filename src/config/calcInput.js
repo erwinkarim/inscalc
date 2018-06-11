@@ -25,7 +25,7 @@ const calcInput = [
   ],
   [ // Step One: current insurance coverage card
     {
-      name: 'ciInsurance', min:0, max:2500000, step: 1000, label: 'Current Critical Illness Coverage',
+      name: 'ciInsurance', min:0, max:1000000, step: 1000, label: 'Current Critical Illness Coverage',
       title:'Critical Illness Coverage', startAdornment: "MYR",
       subtext: 'Critical illness insurance coverage'
     },
@@ -35,7 +35,7 @@ const calcInput = [
       subtext: 'Medical Coverage'
     },
     {
-      name: 'epf', min:0, max:2500000, step: 1000, label: 'EPF Account 2',
+      name: 'epf', min:0, max:500000, step: 1000, label: 'EPF Account 2',
       title:'EPF Account II', startAdornment: "MYR",
       subtext: 'Amount of money in EPF Account II'
     },

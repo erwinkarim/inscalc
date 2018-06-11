@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Card from '@material-ui/core/Card';
 import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
@@ -7,35 +7,24 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
-import NumberFormat from 'react-number-format';
+import NumberFormatCustom from './NumberFormatCustom';
 
 
 const styles = theme => ({
+  root: {},
+  paper: {},
+  button: {},
+  formControl: {},
+  fullWidth: {},
+  chart: {},
+  card: {
+    padding: '0px 20px',
+  },
   sliderGrid: {
     padding: '0px 20px',
   },
-  card: {
-  },
 });
 
-const NumberFormatCustom = (props) => {
-  const { inputRef, onChange, ...other } = props;
-
-  return (
-    <NumberFormat
-      {...other}
-      ref={inputRef}
-      onValueChange={(values) => {
-        onChange({
-          target: {
-            value: values.value,
-          },
-        });
-      }}
-      thousandSeparator
-    />
-  );
-};
 
 const FormCard = (props) => {
   const { classes, currentInput } = props;
@@ -44,7 +33,7 @@ const FormCard = (props) => {
     <Card className={classes.card}>
       {
         currentInput.map(elm => (
-          <FormControl className={classes.formControl} fullWidth>
+          <FormControl key={elm.title} className={classes.formControl} fullWidth>
             <Grid container>
               <Grid item xs={12} md={4}>
                 <Typography variant="subheading">{elm.title}</Typography>
@@ -63,7 +52,7 @@ const FormCard = (props) => {
                   fullWidth
                   InputProps={{
                     startAdornment: elm.startAdornment ? <InputAdornment position="start">{elm.startAdornment}</InputAdornment> : '',
-                    endAdornment: elm.endAdornment ? <InputAdornment position="endl">{elm.endAdornment}</InputAdornment> : '',
+                    endAdornment: elm.endAdornment ? <InputAdornment position="end">{elm.endAdornment}</InputAdornment> : '',
                     inputComponent: NumberFormatCustom,
                     inputProps: { min: elm.min, max: elm.max },
                   }}

@@ -4,6 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import FormCard from '../components/FormCard';
 
 const styles = theme => ({
+  root: {},
+  paper: {},
+  button: {},
   formControl: {
     padding: '16px',
   },

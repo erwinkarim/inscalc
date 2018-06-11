@@ -3,11 +3,12 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { Bar } from 'react-chartjs';
+import { Bar } from 'react-chartjs-2';
 import FormCard from '../components/FormCard';
+import NumberFormatCustom from '../components/NumberFormatCustom';
 
 const chartColors = {
-  red: 'rgb(255, 99, 132)',
+  red: 'rgba(255, 99, 132, 0.4)',
   orange: 'rgb(255, 159, 64)',
   yellow: 'rgb(255, 205, 86)',
   green: 'rgb(75, 192, 192)',
@@ -17,6 +18,10 @@ const chartColors = {
 };
 
 const styles = () => ({
+  root: {},
+  paper: {},
+  fullWidth: {},
+  button: {},
   card: {
     margin: '10px 0px',
   },
@@ -50,11 +55,11 @@ const Two = (props) => {
   );
 
   const chartData = {
-    labels: ['Current', 'Future'],
+    labels: ['Current', 'In 5 years ...'],
     datasets: [
       {
         label: 'Hospitalization Expenses',
-        backgroundColor: chartColors.red,
+        backgroundColor: [chartColors.red, chartColors.red],
         stack: 'Stack 0',
         data: [currentHCExpense, futureHCExpense],
       },
@@ -76,7 +81,7 @@ const Two = (props) => {
   const chartOptions = {
     title: {
       display: true,
-      text: 'Chart.js Bar Chart - Stacked',
+      text: 'Hospitalization Costs vs. Coverage',
     },
     tooltips: {
       mode: 'index',
@@ -95,7 +100,7 @@ const Two = (props) => {
 
   return (
     <div>
-      <Card>
+      <Card className={classes.card}>
         <CardContent>
           <Bar data={chartData} options={chartOptions} width={600} height={250} />
         </CardContent>
@@ -104,10 +109,10 @@ const Two = (props) => {
         <CardContent>
             Debug:
           <ul>
-            <li>Current Healthcare Expense: {currentHCExpense}</li>
-            <li>Current Shortfall: {currentShortfall}</li>
-            <li>Future Healthcare Expense: {futureHCExpense}</li>
-            <li>Future Shortfall: {futureShortfall}</li>
+            <li>Current Healthcare Expense: <NumberFormatCustom displayType="text" value={currentHCExpense} /></li>
+            <li>Current Shortfall: <NumberFormatCustom displayType="text" value={currentShortfall} /></li>
+            <li>Future Healthcare Expense: <NumberFormatCustom displayType="text" value={futureHCExpense} /></li>
+            <li>Future Shortfall: <NumberFormatCustom displayType="text" value={futureShortfall} /></li>
           </ul>
         </CardContent>
       </Card>

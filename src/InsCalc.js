@@ -28,10 +28,8 @@ const styles = theme => ({
 
 // steps
 /**
- * Adds two numbers together.
- * @param {int} num1 The first number.
- * @param {int} num2 The second number.
- * @returns {int} The sum of the two numbers.
+ * get the Steps for the stepper
+ * @returns {array} List of titles
  */
 function getSteps() {
   return ['Calculate Insurance', 'Hospitalization Costs', 'Recovery Costs'];
@@ -39,10 +37,10 @@ function getSteps() {
 
 /**
   * Adds two numbers together.
-  * @param {int} name The first number.
   * @param {int} step The first number.
   * @param {int} e The second number.
   * @param {int} v The second number.
+  * @param {int} name The first number.
   * @returns {int} The sum of the two numbers.
 */
 class InsCalc extends Component {
@@ -61,11 +59,11 @@ class InsCalc extends Component {
       mortage: 0,
       otherExp: 10000,
       savings: 0,
-      ciInsurance: 10000,
-      currInsurance: 0,
+      ciInsurance: 100000,
+      currInsurance: 50000,
       epf: 10000,
       // Step 2: Hospitalization costs
-      healthcareExpenses: 25000,
+      healthcareExpenses: 75000,
       otherExpenses: 10000,
       // Step 3: Recovery costs
       spousalIncome: 0,
@@ -166,9 +164,9 @@ class InsCalc extends Component {
                   </div>
                 ) : (
                   <div>
-                    <Typography className={classes.instructions}>
+                    <div>
                       {this.getStepContent(activeStep)}
-                    </Typography>
+                    </div>
                     <div>
                       <Button
                         disabled={activeStep === 0}
