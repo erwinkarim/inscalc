@@ -162,7 +162,7 @@ class InsCalc extends Component {
             <div>
               {
                 activeStep === steps.length ? (
-                  <Finish {...props} handleReset={this.handleReset} />
+                  <Finish {...this.props} handleReset={this.handleReset} />
                 ) : (
                   <div>
                     <div>
