@@ -11,6 +11,7 @@ import calcInput from './config/calcInput';
 import One from './Steps/One';
 import Two from './Steps/Two';
 import Three from './Steps/Three';
+import Finish from './Steps/Finish';
 
 // We can inject some CSS into the DOM.
 const styles = theme => ({
@@ -55,13 +56,14 @@ class InsCalc extends Component {
     this.state = {
       activeStep: 0,
       // Step 1: Current Income, Expenses and Coverage
-      income: 60000,
+      income: 5000,
       mortage: 0,
-      otherExp: 10000,
+      otherExp: 1000,
       savings: 0,
       ciInsurance: 100000,
       currInsurance: 50000,
       epf: 10000,
+      useEpf: true,
       // Step 2: Hospitalization costs
       healthcareExpenses: 75000,
       otherExpenses: 10000,
@@ -84,6 +86,7 @@ class InsCalc extends Component {
             {...this.state}
             handleChange={this.handleChange}
             handleTextChange={this.handleTextChange}
+            toggleCheck={this.toggleCheck}
           />
         );
       case 1:
@@ -94,6 +97,7 @@ class InsCalc extends Component {
             {...this.state}
             handleChange={this.handleChange}
             handleTextChange={this.handleTextChange}
+            toggleCheck={this.toggleCheck}
           />
         );
       case 2:
@@ -122,6 +126,11 @@ class InsCalc extends Component {
   handleChange = (e, v) => {
     const newState = this.state;
     newState[e] = v;
+    this.setState(newState);
+  }
+  toggleCheck = (e) => {
+    const newState = this.state;
+    newState[e] = !newState[e];
     this.setState(newState);
   }
   handleTextChange = name => (event) => {
@@ -154,14 +163,7 @@ class InsCalc extends Component {
             <div>
               {
                 activeStep === steps.length ? (
-                  <div>
-                    <Typography className={classes.instructions}>
-                      All steps completed - you&quot;re finished
-                    </Typography>
-                    <Button onClick={this.handleReset} className={classes.button}>
-                      Reset
-                    </Button>
-                  </div>
+                  <Finish handleReset={this.handleReset} />
                 ) : (
                   <div>
                     <div>

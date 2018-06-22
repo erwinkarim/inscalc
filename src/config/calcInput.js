@@ -2,7 +2,7 @@ const calcInput = [
   [ // Step One: income card
     {
       name: 'income', min:0, max:2000000, step:1000, label: 'Current income (after taxes):',
-      title: 'Annual Income', startAdornment: 'MYR',
+      title: 'Monthly Income', startAdornment: 'MYR',
       subtext: 'This includes your blah blah'
     },
   ],
@@ -37,19 +37,15 @@ const calcInput = [
     {
       name: 'epf', min:0, max:500000, step: 1000, label: 'EPF Account 2',
       title:'EPF Account II', startAdornment: "MYR",
-      subtext: 'Amount of money in EPF Account II'
+      subtext: 'Amount of money in EPF Account II',
+      checkbox: true, checkboxName: 'useEpf',
     },
   ],
   [ // Step 2: required coverage for Hospitalization
     {
       name: 'healthcareExpenses', min:0, max:500000, step: 1000, label: 'Desired recovery income per month:',
-      title: 'Healthcare expenses', startAdornment: 'MYR',
-      subtext: 'Hospitalization costs',
-    },
-    {
-      name: 'otherExpenses', min:0, max:100000, step: 1000, label: 'Desired recovery income per month:',
-      title: 'Other expenses', startAdornment: 'MYR',
-      subtext: 'Other expenses while you in the hospital',
+      title: 'Surgical & Hospitalization', startAdornment: 'MYR',
+      subtext: 'Costs relating to surgical procedure and hospitalization',
     },
   ],
   [ // Step 3: required coverage for recovery

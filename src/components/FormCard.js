@@ -7,6 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import NumberFormatCustom from './NumberFormatCustom';
 
 
@@ -23,6 +25,9 @@ const styles = theme => ({
   sliderGrid: {
     padding: '0px 20px',
   },
+  checkbox: {
+    height: '24px',
+  },
 });
 
 
@@ -36,10 +41,28 @@ const FormCard = (props) => {
           <FormControl key={elm.title} className={classes.formControl} fullWidth>
             <Grid container>
               <Grid item xs={12} md={4}>
-                <Typography variant="subheading">{elm.title}</Typography>
+                {
+                  elm.checkbox ? (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          color="primary"
+                          name={elm.checkboxName}
+                          checked={props[elm.checkboxName]}
+                          className={classes.checkbox}
+                          onClick={() => props.toggleCheck(elm.checkboxName)}
+                        />
+                      }
+                      label={<Typography variant="subheading">{elm.title}</Typography>}
+                    />
+                  ) : (
+                    <Typography variant="subheading">{elm.title}</Typography>
+                  )
+                }
               </Grid>
               <Grid item xs={12} md={4} className={classes.sliderGrid}>
                 <Slider
+                  disabled={elm.checkbox ? !props[elm.checkboxName] : false}
                   value={props[elm.name]}
                   min={elm.min}
                   max={elm.max}
@@ -50,6 +73,7 @@ const FormCard = (props) => {
               <Grid item xs={12} md={4}>
                 <TextField
                   fullWidth
+                  disabled={elm.checkbox ? !props[elm.checkboxName] : false}
                   InputProps={{
                     startAdornment: elm.startAdornment ? <InputAdornment position="start">{elm.startAdornment}</InputAdornment> : '',
                     endAdornment: elm.endAdornment ? <InputAdornment position="end">{elm.endAdornment}</InputAdornment> : '',
