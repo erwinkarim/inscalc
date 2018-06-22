@@ -4,9 +4,13 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Bar } from 'react-chartjs-2';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import FormCard from '../components/FormCard';
 import NumberFormatCustom from '../components/NumberFormatCustom';
 import chartColors from '../config/chartColors';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const styles = () => ({
   root: {},
@@ -29,13 +33,15 @@ const Two = (props) => {
     classes,
     healthcareExpenses, otherExpenses,
     medInflation,
-    ciInsurance, currInsurance, epf
+    ciInsurance, currInsurance, epf,
+    useEpf,
   } = props;
   // const { BarChart } = ReactD3;
 
   const currentHCExpense = healthcareExpenses + otherExpenses;
   const futureHCExpense = currentHCExpense * ((1 + medInflation) ** 5);
-  const allCoverage = (ciInsurance + currInsurance + epf);
+  const epfCoverage = useEpf ? epf : 0;
+  const allCoverage = (ciInsurance + currInsurance + epfCoverage);
   const currentShortfall = Math.max(
     0,
     currentHCExpense - allCoverage,
@@ -55,10 +61,23 @@ const Two = (props) => {
         data: [currentHCExpense, futureHCExpense],
       },
       {
-        label: 'Insurance Coverage',
+        label: 'Current Insurance Coverage',
         backgroundColor: chartColors.orange,
         stack: 'Stack 1',
-        data: [allCoverage, allCoverage],
+        data: [currInsurance, currInsurance],
+      },
+      {
+        label: 'Critical Illness Coverage',
+        backgroundColor: chartColors.blue,
+        stack: 'Stack 1',
+        data: [ciInsurance, ciInsurance],
+      },
+      {
+        label: 'EPF Coverage',
+        backgroundColor: chartColors.purple,
+        stack: 'Stack 1',
+        data: [epfCoverage, epfCoverage],
+
       },
       {
         label: 'Shortfall',
@@ -109,6 +128,20 @@ const Two = (props) => {
           </ul>
         </CardContent>
       </Card>
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography variant="body1">
+            Base on coverage of MYR {<NumberFormatCustom displayType="text" value={allCoverage} />}. Click to change
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <FormCard
+            {...props}
+            useDiv
+            currentInput={props.calcInput[2]}
+          />
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
       <Typography variant="headline">Hospitalization Cost</Typography>
       <FormCard
         {...props}

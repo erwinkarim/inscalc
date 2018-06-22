@@ -5,7 +5,6 @@ import { Grid, Paper } from '@material-ui/core';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import calcInput from './config/calcInput';
 import One from './Steps/One';
@@ -163,7 +162,7 @@ class InsCalc extends Component {
             <div>
               {
                 activeStep === steps.length ? (
-                  <Finish handleReset={this.handleReset} />
+                  <Finish {...props} handleReset={this.handleReset} />
                 ) : (
                   <div>
                     <div>
