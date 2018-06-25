@@ -134,7 +134,7 @@ class InsCalc extends Component {
   }
   handleTextChange = name => (event) => {
     this.setState({
-      [name]: event.target.value,
+      [name]: parseInt(event.target.value, 10),
     });
   }
   render = () => {
@@ -162,7 +162,7 @@ class InsCalc extends Component {
             <div>
               {
                 activeStep === steps.length ? (
-                  <Finish {...this.props} handleReset={this.handleReset} />
+                  <Finish {...this.state} {...this.props} handleReset={this.handleReset} />
                 ) : (
                   <div>
                     <div>

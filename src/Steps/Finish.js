@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import PropTypes from 'prop-types';
+import NumberFormatCustom from '../components/NumberFormatCustom';
+import { totalHealthcareExpenses, coverage, surgeryShortfall, recoveryExpenses, availableCIFundAfterSurgery, recoveryShortfall} from '../config/calculation';
 
 
 const styles = () => ({
@@ -43,6 +45,35 @@ const Finish = (props) => {
       <Card className={classes.card}>
         <CardContent>
           Talk about coveage here
+          <ul>
+            <li>Coverage (CI, Health + EPF): MYR <NumberFormatCustom value={coverage(props)} displayType="text" /></li>
+            <li>
+              Sugery & Hospitalization Expenses today: MYR <NumberFormatCustom value={totalHealthcareExpenses(props)} displayType="text" />
+            </li>
+            <li>
+              Sugery & Hospitalization Expenses in 5 years: MYR <NumberFormatCustom value={totalHealthcareExpenses(props, true)} displayType="text" />
+            </li>
+            <li>
+              Sugery shortfall today: MYR <NumberFormatCustom value={surgeryShortfall(props)} displayType="text" />
+            </li>
+            <li>
+              Sugery shortfall in 5 years: MYR <NumberFormatCustom value={surgeryShortfall(props, true)} displayType="text" />
+            </li>
+            <li>Funds available after Sugery: MYR <NumberFormatCustom value={availableCIFundAfterSurgery(props)} displayType="text" /></li>
+            <li>
+              Recovery Expenses for {props.recoveryTime} months today: MYR <NumberFormatCustom value={recoveryExpenses(props)} displayType="text" />
+            </li>
+            <li>
+              Recovery Expenses for {props.recoveryTime} months in 5 years:
+              MYR <NumberFormatCustom value={recoveryExpenses(props, true)} displayType="text" />
+            </li>
+            <li>
+              Recovery expenses shortfall today: MYR <NumberFormatCustom value={recoveryShortfall(props)} displayType="text" />
+            </li>
+            <li>
+              Recovery expenses shortfall in 5 years: MYR <NumberFormatCustom value={recoveryShortfall(props, true)} displayType="text" />
+            </li>
+          </ul>
         </CardContent>
       </Card>
       <Card className={classes.card}>

@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import FormCard from '../components/FormCard';
 import NumberFormatCustom from '../components/NumberFormatCustom';
 import chartColors from '../config/chartColors';
+import { recoveryExpenses, availableCIFundAfterSurgery, recoveryShortfall } from '../config/calculation';
 
 const styles = () => ({
   root: {},
@@ -27,28 +28,8 @@ const styles = () => ({
 const Three = (props) => {
   const {
     classes,
-    recoveryTime, recoveryMonthly, desiredIncome,
-    medInflation, inflation,
-    ciInsurance, healthcareExpenses, otherExpenses,
-    currInsurance, epf,
   } = props;
   // const { BarChart } = ReactD3;
-
-  const currentRExpenses = parseInt(recoveryTime, 10) *
-    (parseInt(recoveryMonthly, 10) + parseInt(desiredIncome, 10));
-  const futureRExpenses = parseInt(recoveryTime, 10) * (
-    (recoveryMonthly * ((1 + medInflation) ** 5)) +
-    (desiredIncome * ((1 + inflation) ** 5))
-  );
-  // somehow figure out
-  const currentCIFundAvailable = parseInt(ciInsurance, 10) - (
-    Math.min(
-      parseInt(ciInsurance, 10),
-      (healthcareExpenses + otherExpenses) - (currInsurance + epf),
-    )
-  );
-  const currentRShortfall = Math.max(0, currentRExpenses - currentCIFundAvailable);
-  const futureRShortfall = Math.max(0, futureRExpenses - currentCIFundAvailable);
 
   const chartData = {
     labels: ['Current', 'In 5 years ...'],
@@ -57,13 +38,13 @@ const Three = (props) => {
         label: 'Recovery Expenses',
         backgroundColor: chartColors.red,
         stack: 'Stack 0',
-        data: [currentRExpenses, futureRExpenses],
+        data: [recoveryExpenses(props), recoveryExpenses(props, true)],
       },
       {
         label: 'CI Fund Available',
         backgroundColor: chartColors.orange,
         stack: 'Stack 1',
-        data: [currentCIFundAvailable, currentCIFundAvailable],
+        data: [availableCIFundAfterSurgery(props), availableCIFundAfterSurgery(props)],
       },
       {
         label: 'Shortfall',
@@ -71,7 +52,7 @@ const Three = (props) => {
         borderColor: chartColors.red,
         borderWidth: 1,
         stack: 'Stack 1',
-        data: [currentRShortfall, futureRShortfall],
+        data: [recoveryShortfall(props), recoveryShortfall(props, true)],
       },
     ],
   };
@@ -105,11 +86,11 @@ const Three = (props) => {
       <Card className={classes.card}>
         <CardContent>
           <ul>
-            <li>Total Expenses for Recovery: <NumberFormatCustom displayType="text" value={currentRExpenses} /></li>
-            <li>Shortfall for Recovery: <NumberFormatCustom displayType="text" value={currentRShortfall} /></li>
-            <li>Total Expenses for Recovery in 5 years: <NumberFormatCustom displayType="text" value={futureRExpenses} /></li>
-            <li>Shortfall for Recovery in 5 years: <NumberFormatCustom displayType="text" value={futureRShortfall} /></li>
-            <li>CI fund available: <NumberFormatCustom displayType="text" value={currentCIFundAvailable} /></li>
+            <li>Total Expenses for Recovery: <NumberFormatCustom displayType="text" value={recoveryExpenses(props)} /></li>
+            <li>Shortfall for Recovery: <NumberFormatCustom displayType="text" value={recoveryShortfall(props)} /></li>
+            <li>Total Expenses for Recovery in 5 years: <NumberFormatCustom displayType="text" value={recoveryExpenses(props, true)} /></li>
+            <li>Shortfall for Recovery in 5 years: <NumberFormatCustom displayType="text" value={recoveryShortfall(props, true)} /></li>
+            <li>CI fund available: <NumberFormatCustom displayType="text" value={availableCIFundAfterSurgery(props)} /></li>
           </ul>
         </CardContent>
       </Card>

@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import FormCard from '../components/FormCard';
 import NumberFormatCustom from '../components/NumberFormatCustom';
 import chartColors from '../config/chartColors';
+import { totalHealthcareExpenses, coverage, surgeryShortfall } from '../config/calculation';
 
 const styles = () => ({
   root: {},
@@ -32,29 +33,15 @@ const styles = () => ({
 const Two = (props) => {
   const {
     classes,
-    healthcareExpenses, otherExpenses,
-    medInflation,
-    ciInsurance, currInsurance, epf,
+    healthcareExpenses,
+    ciInsurance,
+    currInsurance,
+    epf,
     useEpf,
   } = props;
   // const { BarChart } = ReactD3;
 
-  const currentHCExpense = parseInt(healthcareExpenses, 10) + parseInt(otherExpenses, 10);
-  const futureHCExpense = currentHCExpense * ((1 + medInflation) ** 5);
   const epfCoverage = useEpf ? parseInt(epf, 10) : 0;
-  const allCoverage = (
-    parseInt(ciInsurance, 10) +
-    parseInt(currInsurance, 10) +
-    parseInt(epfCoverage, 10)
-  );
-  const currentShortfall = Math.max(
-    0,
-    currentHCExpense - allCoverage,
-  );
-  const futureShortfall = Math.max(
-    0,
-    futureHCExpense - allCoverage,
-  );
 
   const chartData = {
     labels: ['Current', 'In 5 years ...'],
@@ -63,7 +50,7 @@ const Two = (props) => {
         label: 'Hospitalization Expenses',
         backgroundColor: [chartColors.red, chartColors.red],
         stack: 'Stack 0',
-        data: [currentHCExpense, futureHCExpense],
+        data: [healthcareExpenses, healthcareExpenses],
       },
       {
         label: 'Current Insurance Coverage',
@@ -82,7 +69,6 @@ const Two = (props) => {
         backgroundColor: chartColors.purple,
         stack: 'Stack 1',
         data: [epfCoverage, epfCoverage],
-
       },
       {
         label: 'Shortfall',
@@ -90,7 +76,7 @@ const Two = (props) => {
         borderColor: chartColors.red,
         borderWidth: 1,
         stack: 'Stack 1',
-        data: [currentShortfall, futureShortfall],
+        data: [surgeryShortfall(props), surgeryShortfall(props, true)],
       },
     ],
   };
@@ -126,17 +112,17 @@ const Two = (props) => {
         <CardContent>
             Debug:
           <ul>
-            <li>Current Healthcare Expense: <NumberFormatCustom displayType="text" value={currentHCExpense} /></li>
-            <li>Current Shortfall: <NumberFormatCustom displayType="text" value={currentShortfall} /></li>
-            <li>Future Healthcare Expense: <NumberFormatCustom displayType="text" value={futureHCExpense} /></li>
-            <li>Future Shortfall: <NumberFormatCustom displayType="text" value={futureShortfall} /></li>
+            <li>Current Healthcare Expense: <NumberFormatCustom displayType="text" value={totalHealthcareExpenses(props)} /></li>
+            <li>Current Shortfall: <NumberFormatCustom displayType="text" value={surgeryShortfall(props)} /></li>
+            <li>Future Healthcare Expense: <NumberFormatCustom displayType="text" value={totalHealthcareExpenses(props, true)} /></li>
+            <li>Future Shortfall: <NumberFormatCustom displayType="text" value={surgeryShortfall(props, true)} /></li>
           </ul>
         </CardContent>
       </Card>
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography variant="body1">
-            Base on coverage of MYR {<NumberFormatCustom displayType="text" value={allCoverage} />}. Click to change
+            Base on coverage of MYR {<NumberFormatCustom displayType="text" value={coverage(props)} />}. Click to change
           </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
