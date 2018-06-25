@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import PropTypes from 'prop-types';
 
 
 const styles = () => ({
@@ -65,6 +66,11 @@ const Finish = (props) => {
       </Button>
     </div>
   );
+};
+
+Finish.propTypes = {
+  classes: PropTypes.shape().isRequired,
+  handleReset: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(Finish);

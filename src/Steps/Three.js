@@ -4,6 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Bar } from 'react-chartjs-2';
+import PropTypes from 'prop-types';
 import FormCard from '../components/FormCard';
 import NumberFormatCustom from '../components/NumberFormatCustom';
 import chartColors from '../config/chartColors';
@@ -29,19 +30,20 @@ const Three = (props) => {
     recoveryTime, recoveryMonthly, desiredIncome,
     medInflation, inflation,
     ciInsurance, healthcareExpenses, otherExpenses,
-    currInsurance, epf
+    currInsurance, epf,
   } = props;
   // const { BarChart } = ReactD3;
 
-  const currentRExpenses = recoveryTime * (recoveryMonthly + desiredIncome);
-  const futureRExpenses = recoveryTime * (
+  const currentRExpenses = parseInt(recoveryTime, 10) *
+    (parseInt(recoveryMonthly, 10) + parseInt(desiredIncome, 10));
+  const futureRExpenses = parseInt(recoveryTime, 10) * (
     (recoveryMonthly * ((1 + medInflation) ** 5)) +
     (desiredIncome * ((1 + inflation) ** 5))
   );
   // somehow figure out
-  const currentCIFundAvailable = ciInsurance - (
+  const currentCIFundAvailable = parseInt(ciInsurance, 10) - (
     Math.min(
-      ciInsurance,
+      parseInt(ciInsurance, 10),
       (healthcareExpenses + otherExpenses) - (currInsurance + epf),
     )
   );
@@ -118,6 +120,21 @@ const Three = (props) => {
       />
     </div>
   );
+};
+
+Three.propTypes = {
+  calcInput: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.shape)).isRequired,
+  classes: PropTypes.shape().isRequired,
+  recoveryTime: PropTypes.number.isRequired,
+  recoveryMonthly: PropTypes.number.isRequired,
+  desiredIncome: PropTypes.number.isRequired,
+  medInflation: PropTypes.number.isRequired,
+  inflation: PropTypes.number.isRequired,
+  ciInsurance: PropTypes.number.isRequired,
+  healthcareExpenses: PropTypes.number.isRequired,
+  otherExpenses: PropTypes.number.isRequired,
+  currInsurance: PropTypes.number.isRequired,
+  epf: PropTypes.number.isRequired,
 };
 
 export default withStyles(styles)(Three);

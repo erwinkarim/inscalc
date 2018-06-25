@@ -60,7 +60,7 @@ const FormCard = (props) => {
         <Grid item xs={12} md={4} className={classes.sliderGrid}>
           <Slider
             disabled={elm.checkbox ? !props[elm.checkboxName] : false}
-            value={props[elm.name]}
+            value={parseInt(props[elm.name], 10)}
             min={elm.min}
             max={elm.max}
             step={elm.step || 1}
@@ -77,7 +77,7 @@ const FormCard = (props) => {
               inputComponent: NumberFormatCustom,
               inputProps: { min: elm.min, max: elm.max },
             }}
-            value={props[elm.name]}
+            value={parseInt(props[elm.name], 10)}
             id={elm.name}
             onChange={props.handleTextChange(elm.name)}
           />

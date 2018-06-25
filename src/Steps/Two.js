@@ -7,10 +7,11 @@ import { Bar } from 'react-chartjs-2';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import PropTypes from 'prop-types';
 import FormCard from '../components/FormCard';
 import NumberFormatCustom from '../components/NumberFormatCustom';
 import chartColors from '../config/chartColors';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const styles = () => ({
   root: {},
@@ -38,10 +39,14 @@ const Two = (props) => {
   } = props;
   // const { BarChart } = ReactD3;
 
-  const currentHCExpense = healthcareExpenses + otherExpenses;
+  const currentHCExpense = parseInt(healthcareExpenses, 10) + parseInt(otherExpenses, 10);
   const futureHCExpense = currentHCExpense * ((1 + medInflation) ** 5);
-  const epfCoverage = useEpf ? epf : 0;
-  const allCoverage = (ciInsurance + currInsurance + epfCoverage);
+  const epfCoverage = useEpf ? parseInt(epf, 10) : 0;
+  const allCoverage = (
+    parseInt(ciInsurance, 10) +
+    parseInt(currInsurance, 10) +
+    parseInt(epfCoverage, 10)
+  );
   const currentShortfall = Math.max(
     0,
     currentHCExpense - allCoverage,
@@ -149,6 +154,18 @@ const Two = (props) => {
       />
     </div>
   );
+};
+
+Two.propTypes = {
+  calcInput: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.shape)).isRequired,
+  classes: PropTypes.shape().isRequired,
+  healthcareExpenses: PropTypes.number.isRequired,
+  otherExpenses: PropTypes.number.isRequired,
+  medInflation: PropTypes.number.isRequired,
+  ciInsurance: PropTypes.number.isRequired,
+  currInsurance: PropTypes.number.isRequired,
+  epf: PropTypes.number.isRequired,
+  useEpf: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(Two);

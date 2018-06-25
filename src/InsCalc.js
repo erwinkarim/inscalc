@@ -57,7 +57,7 @@ class InsCalc extends Component {
       // Step 1: Current Income, Expenses and Coverage
       income: 5000,
       mortage: 0,
-      otherExp: 1000,
+      otherExp: 0,
       savings: 0,
       ciInsurance: 100000,
       currInsurance: 50000,
@@ -65,7 +65,7 @@ class InsCalc extends Component {
       useEpf: true,
       // Step 2: Hospitalization costs
       healthcareExpenses: 75000,
-      otherExpenses: 10000,
+      otherExpenses: 0,
       // Step 3: Recovery costs
       spousalIncome: 0,
       desiredIncome: 1399,
@@ -124,7 +124,7 @@ class InsCalc extends Component {
   }
   handleChange = (e, v) => {
     const newState = this.state;
-    newState[e] = v;
+    newState[e] = parseInt(v, 10);
     this.setState(newState);
   }
   toggleCheck = (e) => {
